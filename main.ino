@@ -54,88 +54,91 @@ void connect_mqtt()
   client_mqtt.subscribe("/relay5");
   client_mqtt.subscribe("/relay6");
   client_mqtt.subscribe("/relay7");
+  client_mqtt.subscribe("/relay8");
+  client_mqtt.subscribe("/relay9");
 }
 
 void messageReceived(String &topic, String &payload) 
 {
   Serial.println("topic: " + topic + ": " + payload);
 
-  Serial.print(payload);
-
   if (topic=="/relay1")
   {
-    if (payload=="ON") digitalWrite(0, HIGH);
-    else if (payload=="OFF") digitalWrite(0, LOW);
-
-    return;
+    if (payload=="ON") digitalWrite(0, LOW);
+    else if (payload=="OFF") digitalWrite(0, HIGH);
   }
-  // else if (topic=="/relay2")
-  // {
-  //   if (payload="ON") digitalWrite(1, HIGH);
-  //   else digitalWrite(1, LOW);
-  // }
-  // else if (topic=="/relay3")
-  // {
-  //   if (payload="ON") digitalWrite(2, HIGH);
-  //   else digitalWrite(2, LOW);
-  // }
-  // else if (topic=="/relay4")
-  // {
-  //   if (payload="ON") digitalWrite(3, HIGH);
-  //   else digitalWrite(3, LOW);
-  // }
-  // else if (topic=="/relay5")
-  // {
-  //   if (payload="ON") digitalWrite(4, HIGH);
-  //   else digitalWrite(4, LOW);
-  // }
-  //  else if (topic=="/relay6")
-  // {
-  //   if (payload="ON") digitalWrite(5, HIGH);
-  //   else digitalWrite(5, LOW);
-  // }
-  // else if (topic=="/relay7")
-  // {
-  //   if (payload="ON") digitalWrite(6, HIGH);
-  //   else digitalWrite(6, LOW);
-  // }
-  // else if (topic=="/relay8")
-  // {
-  //   if (payload="ON") digitalWrite(7, HIGH);
-  //   else digitalWrite(7, LOW);
-  // }
+  else if (topic=="/relay2")
+  {
+    if (payload=="ON") digitalWrite(1, LOW);
+    else if (payload=="OFF") digitalWrite(1, HIGH);
+  }
+  else if (topic=="/relay3")
+  {
+    if (payload=="ON") digitalWrite(2, LOW);
+    else if (payload=="OFF") digitalWrite(2, HIGH);
+  }
+  else if (topic=="/relay4")
+  {
+    if (payload=="ON") digitalWrite(3, LOW);
+    else if (payload=="OFF") digitalWrite(3, HIGH);
+  }
+  else if (topic=="/relay5")
+  {
+    if (payload=="ON") digitalWrite(4, LOW);
+    else if (payload=="OFF") digitalWrite(4, HIGH);
+  }
+  else if (topic=="/relay6")
+  {
+    if (payload=="ON") digitalWrite(5, LOW);
+    else if (payload=="OFF") digitalWrite(5, HIGH);
+  }
+  else if (topic=="/relay7")
+  {
+    if (payload=="ON") digitalWrite(6, LOW);
+    else if (payload=="OFF") digitalWrite(6, HIGH);
+  }
+  else if (topic=="/relay8")
+  {
+    if (payload=="ON") digitalWrite(7, LOW);
+    else if (payload=="OFF") digitalWrite(7, HIGH);
+  }
+  else if (topic=="/relay9")
+  {
+    if (payload=="ON") digitalWrite(8, LOW);
+    else if (payload=="OFF") digitalWrite(8, HIGH);
+  }
 }
 
 void setup_gpio()
 {
   pinMode(0, OUTPUT);
-  digitalWrite(0, LOW);
+  digitalWrite(0, HIGH);
 
   pinMode(1, OUTPUT);
-  digitalWrite(1, LOW);
+  digitalWrite(1, HIGH);
 
   pinMode(2, OUTPUT);
-  digitalWrite(2, LOW);
+  digitalWrite(2, HIGH);
 
   pinMode(3, OUTPUT);
-  digitalWrite(3, LOW);
+  digitalWrite(3, HIGH);
 
   pinMode(4, OUTPUT);
-  digitalWrite(4, LOW);
+  digitalWrite(4, HIGH);
 
   pinMode(5, OUTPUT);
-  digitalWrite(5, LOW);
+  digitalWrite(5, HIGH);
 
   pinMode(6, OUTPUT);
-  digitalWrite(6, LOW);
+  digitalWrite(6, HIGH);
 
   pinMode(7, OUTPUT);
-  digitalWrite(7, LOW);
+  digitalWrite(7, HIGH);
 
-  // pinMode(8, OUTPUT);
-  // digitalWrite(8, LOW);
+  pinMode(8, OUTPUT);
+  digitalWrite(8, HIGH);
 
-  for (int i=1 ; i<=8 ; i++)
+  for (int i=1 ; i<=9 ; i++)
   {
     String msg = "/relay";
     msg+=String(i);
@@ -152,17 +155,18 @@ void setup()
   connect_wifi();
   connect_mqtt();
   setup_gpio();
-
 }
 
 
 void loop() 
 {
-   client_mqtt.loop();
-  // delay(1000); // helps eventually
+  client_mqtt.loop();
+  delay(1000);
 
   if (!client_wifi.connected()) {
     connect_wifi();
+    connect_mqtt();
+    delay(1000);
   }
 
 }
